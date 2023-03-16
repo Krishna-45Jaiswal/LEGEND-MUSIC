@@ -11,12 +11,12 @@ from pytgcalls.exceptions import GroupCallNotFound, NoActiveGroupCall
 from pytgcalls.types.stream import StreamAudioEnded, StreamVideoEnded
 from core.decorators import language, register, only_admins, handle_error
 from core import (
-    app, ydl, search, is_sudo, sweetie, is_admin, get_group, get_queue,
+    ydl, search, is_sudo, sweetie, is_admin, get_group, get_queue,
     set_group, set_title, all_groups, clear_queue, skip_stream,
     check_yt_url, extract_args, start_stream, shuffle_queue, delete_messages,
     get_spotify_playlist, get_youtube_playlist)
 
-from mains import calls, client
+from mains import calls, client, app
 
 REPO = """
 👨‍💻**Legend Music Player**👨‍💻

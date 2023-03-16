@@ -15,7 +15,7 @@ from pytgcalls.types.input_stream.quality import (
     LowQualityAudio, LowQualityVideo, HighQualityAudio, HighQualityVideo,
     MediumQualityAudio, MediumQualityVideo)
 
-from mains import app
+from mains import app, calls
 
 sweetie = {}
 ydl_opts = {
@@ -33,7 +33,7 @@ async def skip_stream(song: Song, lang):
         except BaseException:
             pass
     infomsg = await song.request_msg.reply_text(lang["downloading"])
-    await pytgcalls.change_stream(
+    await calls.change_stream(
         chat.id,
         get_quality(song),
     )
@@ -72,7 +72,7 @@ async def start_stream(song: Song, lang):
             pass
     infomsg = await song.request_msg.reply_text(lang["downloading"])
     try:
-        await pytgcalls.join_group_call(
+        await calls.join_group_call(
             chat.id,
             get_quality(song),
             stream_type=StreamType().pulse_stream,

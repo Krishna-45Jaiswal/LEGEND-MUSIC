@@ -16,11 +16,7 @@ from core import (
     check_yt_url, extract_args, start_stream, shuffle_queue, delete_messages,
     get_spotify_playlist, get_youtube_playlist)
 
-app = Client(
-    api_id=config.API_ID, api_hash=config.API_HASH, session_name=str(config.SESSION)
-)
-
-calls = PyTgCalls(app)
+from mains import calls, client
 
 REPO = """
 👨‍💻**Legend Music Player**👨‍💻
@@ -28,16 +24,6 @@ REPO = """
 - ⚜ [Owner](https://t.me/LegendBoy_OP) ⚜
 """
 
-if config.BOT_TOKEN:
-    bot = Client(
-        "Music",
-        api_id=config.API_ID,
-        api_hash=config.API_HASH,
-        bot_token=config.BOT_TOKEN,
-    )
-    client = bot
-else:
-    client = app
 
 @client.on_message(
     filters.command("repo", config.PREFIXES) & ~filters.bot & ~filters.edited

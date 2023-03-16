@@ -38,7 +38,7 @@ async def repo(_, message: Message):
 )
 @handle_error
 async def ping(_, message: Message):
-    await message.reply_text(f"😎 **Pong!** 😎\n`{await pytgcalls.ping} ms`")
+    await message.reply_text(f"😎 **Pong!** 😎\n`{await calls.ping} ms`")
 
 
 @client.on_message(
@@ -177,7 +177,7 @@ async def skip_track(_, message: Message, lang):
             set_group(chat_id, is_playing=False, now_playing=None)
             await set_title(message, "")
             try:
-                await pytgcalls.leave_group_call(chat_id)
+                await calls.leave_group_call(chat_id)
                 k = await message.reply_text(lang["queueEmpty"])
             except (NoActiveGroupCall, GroupCallNotFound):
                 k = await message.reply_text(lang["notActive"])
@@ -194,7 +194,7 @@ async def skip_track(_, message: Message, lang):
 async def mute_vc(_, message: Message, lang):
     chat_id = message.chat.id
     try:
-        await pytgcalls.mute_stream(chat_id)
+        await calls.mute_stream(chat_id)
         k = await message.reply_text(lang["muted"])
     except (NoActiveGroupCall, GroupCallNotFound):
         k = await message.reply_text(lang["notActive"])
@@ -213,7 +213,7 @@ async def mute_vc(_, message: Message, lang):
 async def unmute_vc(_, message: Message, lang):
     chat_id = message.chat.id
     try:
-        await pytgcalls.unmute_stream(chat_id)
+        await calls.unmute_stream(chat_id)
         k = await message.reply_text(lang["unmuted"])
     except (NoActiveGroupCall, GroupCallNotFound):
         k = await message.reply_text(lang["notActive"])
@@ -232,7 +232,7 @@ async def unmute_vc(_, message: Message, lang):
 async def pause_vc(_, message: Message, lang):
     chat_id = message.chat.id
     try:
-        await pytgcalls.pause_stream(chat_id)
+        await calls.pause_stream(chat_id)
         k = await message.reply_text(lang["paused"])
     except (NoActiveGroupCall, GroupCallNotFound):
         k = await message.reply_text(lang["notActive"])
@@ -251,7 +251,7 @@ async def pause_vc(_, message: Message, lang):
 async def resume_vc(_, message: Message, lang):
     chat_id = message.chat.id
     try:
-        await pytgcalls.resume_stream(chat_id)
+        await calls.resume_stream(chat_id)
         k = await message.reply_text(lang["resumed"])
     except (NoActiveGroupCall, GroupCallNotFound):
         k = await message.reply_text(lang["notActive"])
@@ -273,7 +273,7 @@ async def leave_vc(_, message: Message, lang):
     await set_title(message, "")
     clear_queue(chat_id)
     try:
-        await pytgcalls.leave_group_call(chat_id)
+        await calls.leave_group_call(chat_id)
         k = await message.reply_text(lang["leaveVC"])
     except (NoActiveGroupCall, GroupCallNotFound):
         k = await message.reply_text(lang["notActive"])
@@ -560,7 +560,7 @@ async def update_restart(_, message: Message, lang):
     stats = await message.reply_text(lang["update"])
     for chat in chats:
         try:
-            await pytgcalls.leave_group_call(chat)
+            await calls.leave_group_call(chat)
         except (NoActiveGroupCall, GroupCallNotFound):
             pass
     await stats.edit_text(lang["restart"])
@@ -568,7 +568,7 @@ async def update_restart(_, message: Message, lang):
     os.system(f"kill -9 {os.getpid()} && bash startup.sh")
 
 
-@pytgcalls.on_stream_end()
+@calls.on_stream_end()
 @language
 @handle_error
 async def stream_end(_, update: Update, lang):
@@ -595,10 +595,10 @@ async def stream_end(_, update: Update, lang):
                         pass
                 await set_title(chat_id, "", client=app)
                 set_group(chat_id, is_playing=False, now_playing=None)
-                await pytgcalls.leave_group_call(chat_id)
+                await calls.leave_group_call(chat_id)
 
 
-@pytgcalls.on_closed_voice_chat()
+@calls.on_closed_voice_chat()
 @handle_error
 async def closed_vc(_, chat_id: int):
     if chat_id not in all_groups():
@@ -612,7 +612,7 @@ async def closed_vc(_, chat_id: int):
         clear_queue(chat_id)
 
 
-@pytgcalls.on_kicked()
+@calls.on_kicked()
 @handle_error
 async def kicked_vc(_, chat_id: int):
     if chat_id not in all_groups():
@@ -626,7 +626,7 @@ async def kicked_vc(_, chat_id: int):
         clear_queue(chat_id)
 
 
-@pytgcalls.on_left()
+@calls.on_left()
 @handle_error
 async def left_vc(_, chat_id: int):
     if chat_id not in all_groups():

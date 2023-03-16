@@ -15,6 +15,7 @@ from pytgcalls.types.input_stream.quality import (
     LowQualityAudio, LowQualityVideo, HighQualityAudio, HighQualityVideo,
     MediumQualityAudio, MediumQualityVideo)
 
+from mains import app
 
 sweetie = {}
 ydl_opts = {

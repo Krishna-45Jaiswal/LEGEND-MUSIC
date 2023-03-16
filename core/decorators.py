@@ -2,7 +2,7 @@
 import time
 from lang import load
 from config import config
-from runfile import app
+from mains import app
 from pyrogram import Client
 from datetime import datetime
 from pytgcalls import PyTgCalls

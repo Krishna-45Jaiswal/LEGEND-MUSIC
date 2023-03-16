@@ -1,9 +1,8 @@
-#
 
 import time
 from lang import load
 from config import config
-from core.stream import app
+from runfile import app
 from pyrogram import Client
 from datetime import datetime
 from pytgcalls import PyTgCalls

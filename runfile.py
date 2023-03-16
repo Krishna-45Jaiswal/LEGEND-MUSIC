@@ -5,16 +5,22 @@ from config import config
 from core.song import Song
 from pyrogram.types import Message
 from pytgcalls.types import Update
+from pytgcalls import PyTgCalls
 from pyrogram import Client, filters
 from pytgcalls.exceptions import GroupCallNotFound, NoActiveGroupCall
 from pytgcalls.types.stream import StreamAudioEnded, StreamVideoEnded
 from core.decorators import language, register, only_admins, handle_error
 from core import (
     app, ydl, search, is_sudo, sweetie, is_admin, get_group, get_queue,
-    pytgcalls, set_group, set_title, all_groups, clear_queue, skip_stream,
+    set_group, set_title, all_groups, clear_queue, skip_stream,
     check_yt_url, extract_args, start_stream, shuffle_queue, delete_messages,
     get_spotify_playlist, get_youtube_playlist)
 
+app = Client(
+    api_id=config.API_ID, api_hash=config.API_HASH, session_name=str(config.SESSION)
+)
+
+calls = PyTgCalls(app)
 
 REPO = """
 👨‍💻**Legend Music Player**👨‍💻
@@ -32,7 +38,6 @@ if config.BOT_TOKEN:
     client = bot
 else:
     client = app
-
 
 @client.on_message(
     filters.command("repo", config.PREFIXES) & ~filters.bot & ~filters.edited
@@ -650,4 +655,4 @@ async def left_vc(_, chat_id: int):
 
 
 client.start()
-pytgcalls.run()
+calls.run()

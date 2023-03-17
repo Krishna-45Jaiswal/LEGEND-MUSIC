@@ -37,8 +37,6 @@ class Song:
     async def parse(self) -> Tuple[bool, str]:
         if self.parsed:
             return (True, "ALREADY_PARSED")
-        if self._retries >= 5:
-            return (False, "MAX_RETRY_LIMIT_REACHED")
         process = await asyncio.create_subprocess_shell(
             f"yt-dlp --print-json --skip-download -f best {quote(self.source)}",
             stdout=PIPE,
